@@ -1,0 +1,16 @@
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.csproj.AssemblyReference.cache
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.Properties.Resources.resources
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.csproj.GenerateResource.cache
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.Forms.AuthForm.resources
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.Forms.ClientForm.resources
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.Forms.PhotographerForm.resources
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.Forms.RegistrationForm.resources
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\bin\Debug\Client.exe.config
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\bin\Debug\Client.exe
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\bin\Debug\Client.pdb
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\bin\Debug\PStudioLibrary.dll
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\bin\Debug\PStudioLibrary.pdb
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.csproj.CopyComplete
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.exe
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.pdb

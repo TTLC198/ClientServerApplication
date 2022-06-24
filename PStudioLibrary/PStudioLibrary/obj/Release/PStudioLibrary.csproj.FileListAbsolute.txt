@@ -1,0 +1,9 @@
+C:\Users\yoreh\RiderProjects\CS_Application\PStudioLibrary\PStudioLibrary\bin\Release\PStudioLibrary.dll
+C:\Users\yoreh\RiderProjects\CS_Application\PStudioLibrary\PStudioLibrary\bin\Release\PStudioLibrary.pdb
+C:\Users\yoreh\RiderProjects\CS_Application\PStudioLibrary\PStudioLibrary\obj\Release\PStudioLibrary.csproj.AssemblyReference.cache
+C:\Users\yoreh\RiderProjects\CS_Application\PStudioLibrary\PStudioLibrary\obj\Release\PStudioLibrary.csproj.CoreCompileInputs.cache
+C:\Users\yoreh\RiderProjects\CS_Application\PStudioLibrary\PStudioLibrary\obj\Release\PStudioLibrary.dll
+C:\Users\yoreh\RiderProjects\CS_Application\PStudioLibrary\PStudioLibrary\obj\Release\PStudioLibrary.pdb
+C:\Users\yoreh\RiderProjects\CS_Application\PStudioLibrary\PStudioLibrary\bin\Release\System.Drawing.Common.dll
+C:\Users\yoreh\RiderProjects\CS_Application\PStudioLibrary\PStudioLibrary\bin\Release\System.Drawing.Common.xml
+C:\Users\yoreh\RiderProjects\CS_Application\PStudioLibrary\PStudioLibrary\obj\Release\PStudioLibrary.csproj.CopyComplete

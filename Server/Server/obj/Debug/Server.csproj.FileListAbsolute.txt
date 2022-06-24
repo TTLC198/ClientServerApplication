@@ -1,0 +1,14 @@
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\bin\Debug\Server.exe.config
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\bin\Debug\Server.exe
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\bin\Debug\Server.pdb
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\bin\Debug\EntityFramework.dll
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\bin\Debug\PStudioLibrary.dll
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\bin\Debug\EntityFramework.xml
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\bin\Debug\PStudioLibrary.pdb
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\obj\Debug\Server.csproj.AssemblyReference.cache
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\obj\Debug\Server.csproj.CopyComplete
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\obj\Debug\Server.exe
+C:\Users\yoreh\RiderProjects\CS_Application\Server\Server\obj\Debug\Server.pdb
