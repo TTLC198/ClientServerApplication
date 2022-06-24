@@ -12,7 +12,14 @@ namespace Client.Forms
         public AuthForm()
         {
             InitializeComponent();
-            Network.stream = Network.client.GetStream();
+            try
+            {
+                Network.stream = Network.client.GetStream();
+            }
+            catch (System.TypeInitializationException)
+            {
+                MessageBox.Show("Сервер не доступен!\nПовторите позже.");
+            }
         }
 
         private void passwordVisibleCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -160,8 +167,14 @@ namespace Client.Forms
 
         private void AuthForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Network.client.Close();
             Application.Exit();
+        }
+
+        private void restorePassword_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            RecoverForm recoverForm = new RecoverForm();
+            recoverForm.Show();
         }
     }
 }

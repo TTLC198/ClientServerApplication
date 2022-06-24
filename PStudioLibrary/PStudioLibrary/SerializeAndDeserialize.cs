@@ -26,7 +26,7 @@ namespace PStudioLibrary
             anySerializableObject)
         {
             IFormatter formatter = new BinaryFormatter();
-            formatter.Binder = new CustomBinder();
+            //formatter.Binder = new CustomBinder();
             using (var memoryStream = new MemoryStream())
             {
                 formatter.Serialize(memoryStream, anySerializableObject);
@@ -37,7 +37,7 @@ namespace PStudioLibrary
         public static object Deserialize(byte[] data)
         {
             IFormatter formatter = new BinaryFormatter();
-            formatter.Binder = new CustomBinder();
+            //formatter.Binder = new CustomBinder();
             using (var memoryStream = new MemoryStream(data))
             {
                 return formatter.Deserialize(memoryStream);

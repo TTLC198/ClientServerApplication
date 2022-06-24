@@ -56,6 +56,8 @@
         <Compile Include="Forms\ClientForm.Designer.cs" />
         <Compile Include="Forms\PhotographerForm.cs" />
         <Compile Include="Forms\PhotographerForm.Designer.cs" />
+        <Compile Include="Forms\RecoverForm.cs" />
+        <Compile Include="Forms\RecoverForm.Designer.cs" />
         <Compile Include="Forms\RegistrationForm.cs" />
         <Compile Include="Forms\RegistrationForm.Designer.cs" />
         <Compile Include="Network.cs" />
@@ -64,6 +66,7 @@
         <EmbeddedResource Include="Forms\AuthForm.resx" />
         <EmbeddedResource Include="Forms\ClientForm.resx" />
         <EmbeddedResource Include="Forms\PhotographerForm.resx" />
+        <EmbeddedResource Include="Forms\RecoverForm.resx" />
         <EmbeddedResource Include="Forms\RegistrationForm.resx" />
         <EmbeddedResource Include="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>

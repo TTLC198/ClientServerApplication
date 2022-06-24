@@ -69,7 +69,7 @@ namespace Client.Forms
                     {
                         Network.stream.Read(myReadBuffer, 0, myReadBuffer.Length);
                     } while (Network.stream.DataAvailable);
-
+                    Network.stream.Flush();
                     var responseMessage = (ComplexMessage) SerializeAndDeserialize.Deserialize(myReadBuffer);
                     if (responseMessage.StatusCode == 200)
                         queriesDictionary = SerializeAndDeserialize.DeserializeDictionary(responseMessage.Messages[0].Data);
@@ -88,16 +88,35 @@ namespace Client.Forms
             }
             if (_order is {isCompleted: true})
             {
-                Task.Run(async () =>
+                currentClient.completed_orders++;
+                Services.SendComplexMessageAsync(Network.stream, new ComplexMessage()
                 {
-                    /*var phot = db.Photographers.First(ph => ph.id == _order.p_id);
-                    phot.rating = (short?) ((phot.rating + scoreTrackBar.Value) / 2);
-                    phot.completed_orders++;
-                    db.Clients.First(cl => cl.id == currentClient.id).completed_orders++;
-                    MessageBox.Show("Отзыв отправлен!");
-                    db.SaveChanges();
-                    ExecuteButton.Text = "Оформить заказ";*/
+                    Messages = new []
+                    {
+                        SerializeAndDeserialize.Serialize(_order),
+                        SerializeAndDeserialize.Serialize(currentClient),
+                        SerializeAndDeserialize.Serialize(new Photographer()
+                        {
+                            rating = (short?)scoreTrackBar.Value
+                        })
+                    },
+                    StatusCode = 210
                 });
+                Network.stream.Flush();
+                if (Network.stream.CanRead)
+                {
+                    byte[] myReadBuffer = new byte[6297630];
+                    do
+                    {
+                        Network.stream.Read(myReadBuffer, 0, myReadBuffer.Length);
+                    } while (Network.stream.DataAvailable);
+                    Network.stream.Flush();
+                    var responseMessage = (ComplexMessage) SerializeAndDeserialize.Deserialize(myReadBuffer);
+                    if (responseMessage.StatusCode == 200)
+                        MessageBox.Show("Отзыв отправлен!");
+                }
+                    
+                ExecuteButton.Text = "Оформить заказ";
 
                 return;
             }
@@ -134,41 +153,11 @@ namespace Client.Forms
                 {
                     Network.stream.Read(myReadBuffer, 0, myReadBuffer.Length);
                 } while (Network.stream.DataAvailable);
-
+                Network.stream.Flush();
                 var responseMessage = (ComplexMessage) SerializeAndDeserialize.Deserialize(myReadBuffer);
                 if (responseMessage.StatusCode == 200)
                     MessageBox.Show("Заказ успешно отправлен исполнителю!");
             }
-            /*Task.Run(async () =>
-            {
-                await Services.SendComplexMessageAsync(Network.stream, new ComplexMessage()
-                {
-                    Messages = new []
-                    {
-                        SerializeAndDeserialize.Serialize(new Order()
-                        {
-                            message = messageTextBox.Text,
-                            c_id = currentClient.id,
-                            p_id = photDictionary.First(pd => pd.Value == (string) photListBox.SelectedItem).Key,
-                            isCompleted = false
-                        })
-                    },
-                    StatusCode = 209
-                });
-                Network.stream.Flush();
-                if (Network.stream.CanRead)
-                {
-                    byte[] myReadBuffer = new byte[6297630];
-                    do
-                    {
-                        Network.stream.Read(myReadBuffer, 0, myReadBuffer.Length);
-                    } while (Network.stream.DataAvailable);
-
-                    var responseMessage = (ComplexMessage) SerializeAndDeserialize.Deserialize(myReadBuffer);
-                    if (responseMessage.StatusCode == 200)
-                        MessageBox.Show("Заказ успешно отправлен исполнителю!");
-                }
-            });*/
         }
 
         private void queriesListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -176,87 +165,87 @@ namespace Client.Forms
             try
             {
                 for (int i = 1; i < imagesPanel.Controls.Count; i++) imagesPanel.Controls.RemoveAt(i);
-                var photos = new List<Photo>();
-                var o_id = queriesDictionary.First(qd => qd.Value == (string) (sender as ListBox).SelectedItem).Key;
+                    var photos = new List<Photo>();
+                    var o_id = queriesDictionary.First(qd => qd.Value == (string) (sender as ListBox).SelectedItem).Key;
 
-                Services.SendComplexMessageAsync(Network.stream, new ComplexMessage()
-                {
-                    Messages = new []
+                    Services.SendComplexMessageAsync(Network.stream, new ComplexMessage()
                     {
-                        SerializeAndDeserialize.Serialize(new Order()
+                        Messages = new[]
                         {
-                            id = o_id
-                        })  
-                    },
-                    StatusCode = 206
-                });
-                Network.stream.Flush();
-                if (Network.stream.CanRead)
-                {
-                    byte[] myReadBuffer = new byte[6297630];
-                    do
+                            SerializeAndDeserialize.Serialize(new Order()
+                            {
+                                id = o_id
+                            })
+                        },
+                        StatusCode = 206
+                    });
+                    Network.stream.Flush();
+                    if (Network.stream.CanRead)
                     {
-                        Network.stream.Read(myReadBuffer, 0, myReadBuffer.Length);
-                    } while (Network.stream.DataAvailable);
+                        byte[] myReadBuffer = new byte[6297630];
+                        do
+                        {
+                            Network.stream.Read(myReadBuffer, 0, myReadBuffer.Length);
+                        } while (Network.stream.DataAvailable);
 
-                    var responseMessage = (ComplexMessage) SerializeAndDeserialize.Deserialize(myReadBuffer);
-                    if (responseMessage.StatusCode == 200)
-                        _order = (Order) SerializeAndDeserialize.Deserialize(responseMessage.Messages[0].Data); 
-                    else 
-                        MessageBox.Show("Произошла ошибка на стороне сервера!");
-                }
-                Network.stream.Flush();
-                Services.SendComplexMessageAsync(Network.stream, new ComplexMessage()
-                {
-                    Messages = new []
-                    {
-                        SerializeAndDeserialize.Serialize(new Order()
-                        {
-                            id = o_id
-                        })  
-                    },
-                    StatusCode = 211
-                });
-                Network.stream.Flush();
-                if (Network.stream.CanRead)
-                {
-                    byte[] myReadBuffer = new byte[6297630];
-                    do
-                    {
-                        Network.stream.Read(myReadBuffer, 0, myReadBuffer.Length);
-                    } while (Network.stream.DataAvailable);
+                        var responseMessage = (ComplexMessage) SerializeAndDeserialize.Deserialize(myReadBuffer);
+                        if (responseMessage.StatusCode == 200)
+                            _order = (Order) SerializeAndDeserialize.Deserialize(responseMessage.Messages[0].Data);
+                        else
+                            MessageBox.Show("Произошла ошибка на стороне сервера!");
+                    }
 
-                    var responseMessage = (ComplexMessage) SerializeAndDeserialize.Deserialize(myReadBuffer);
-                    if (responseMessage.StatusCode == 200 && photos.Count != 0)
+                    Network.stream.Flush();
+                    Services.SendComplexMessageAsync(Network.stream, new ComplexMessage()
                     {
-                        photos = (List<Photo>) SerializeAndDeserialize.Deserialize(responseMessage.Messages[0].Data); 
-                        if (_order.isCompleted)
+                        Messages = new[]
                         {
+                            SerializeAndDeserialize.Serialize(_order)
+                        },
+                        StatusCode = 211
+                    });
+                    Network.stream.Flush();
+                    if (Network.stream.CanRead)
+                    {
+                        byte[] myReadBuffer = new byte[6297630];
+                        do
+                        {
+                            Network.stream.Read(myReadBuffer, 0, myReadBuffer.Length);
+                        } while (Network.stream.DataAvailable);
+
+                        Network.stream.Flush();
+                        var responseMessage = (ComplexMessage) SerializeAndDeserialize.Deserialize(myReadBuffer);
+                        if (responseMessage.StatusCode == 200)
+                        {
+                            photos = (List<Photo>) SerializeAndDeserialize.Deserialize(responseMessage.Messages[0]
+                                .Data);
+                            foreach (var photo in photos)
+                            {
+                                PictureBox pictureBox = new PictureBox();
+                                pictureBox.Image = Services.ByteArrayToImage(photo.data);
+                                pictureBox.BorderStyle = BorderStyle.FixedSingle;
+                                pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+                                pictureBox.Size = new Size(330, 230);
+                                imagesPanel.Controls.Add(pictureBox);
+                            }
+
+                            if (_order.isCompleted)
+                            {
+                                messagePanel.Visible = false;
+                                imagesPanel.Visible = true;
+                                scoreLabel.Text = "Поставьте оценку исполнителю";
+                                ExecuteButton.Text = "Оставить отзыв";
+                                return;
+                            }
+
                             messagePanel.Visible = false;
                             imagesPanel.Visible = true;
-                            scoreLabel.Text = "Поставьте оценку исполнителю";
-                            ExecuteButton.Text = "Оставить отзыв";
-                            return;
-                        }   
-                
-                        messagePanel.Visible = false;
-                        imagesPanel.Visible = true;
+                        }
+                        else
+                            MessageBox.Show("Произошла ошибка на стороне сервера!");
                     }
-                    else if (photos.Count == 0)
-                        MessageBox.Show("Фотографии не найдены!");
-                    else 
-                        MessageBox.Show("Произошла ошибка на стороне сервера!");
-                }
-                Network.stream.Flush();
-                foreach (var photo in photos)
-                {
-                    PictureBox pictureBox = new PictureBox();
-                    pictureBox.Image = Services.ByteArrayToImage(photo.data);
-                    pictureBox.BorderStyle = BorderStyle.FixedSingle;
-                    pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-                    pictureBox.Size = new Size(330, 230);
-                    imagesPanel.Controls.Add(pictureBox);
-                }
+
+                    Network.stream.Flush();
             }
             catch (Exception exception)
             {

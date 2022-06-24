@@ -44,7 +44,7 @@ namespace Client.Forms
                     {
                         Network.stream.Read(myReadBuffer, 0, myReadBuffer.Length);
                     } while (Network.stream.DataAvailable);
-
+                    Network.stream.Flush();
                     var responseMessage = (ComplexMessage) SerializeAndDeserialize.Deserialize(myReadBuffer);
                     if (responseMessage.StatusCode == 200)
                         queriesDictionary = SerializeAndDeserialize.DeserializeDictionary(responseMessage.Messages[0].Data); 
@@ -86,7 +86,7 @@ namespace Client.Forms
                 {
                     Network.stream.Read(myReadBuffer, 0, myReadBuffer.Length);
                 } while (Network.stream.DataAvailable);
-
+                Network.stream.Flush();
                 var responseMessage = (ComplexMessage) SerializeAndDeserialize.Deserialize(myReadBuffer);
                 if (responseMessage.StatusCode == 200)
                     _order = (Order) SerializeAndDeserialize.Deserialize(responseMessage.Messages[0].Data); 
@@ -105,6 +105,7 @@ namespace Client.Forms
             }
             try
             {
+                _order.isCompleted = true;
                 var orderMessage = SerializeAndDeserialize.Serialize(_order);
                 var photosMessage = SerializeAndDeserialize.Serialize(_photos);
             
@@ -124,7 +125,7 @@ namespace Client.Forms
                     {
                         Network.stream.Read(myReadBuffer, 0, myReadBuffer.Length);
                     } while (Network.stream.DataAvailable);
-
+                    Network.stream.Flush();
                     var responseMessage = (ComplexMessage) SerializeAndDeserialize.Deserialize(myReadBuffer);
                     if (responseMessage.StatusCode == 200)
                         MessageBox.Show("Заказ успешно отправлен заказчику!");

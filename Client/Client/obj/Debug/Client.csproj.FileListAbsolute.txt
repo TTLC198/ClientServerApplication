@@ -14,3 +14,4 @@ C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\bin\Debug\PStudioLibra
 C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.csproj.CopyComplete
 C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.exe
 C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.pdb
+C:\Users\yoreh\RiderProjects\CS_Application\Client\Client\obj\Debug\Client.Forms.RecoverForm.resources

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Spatial;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using PStudioLibrary;
@@ -40,6 +43,7 @@ namespace Server
                         {
                             _stream.Read(myReadBuffer, 0, myReadBuffer.Length);
                         } while (_stream.DataAvailable);
+                        _stream.Flush();
                         cm = (ComplexMessage) SerializeAndDeserialize.Deserialize(myReadBuffer);
                         switch (cm.StatusCode)
                         {
@@ -252,11 +256,19 @@ namespace Server
                             case 210: // Update ph and cl
                                 Task.Run(async () =>
                                 {
-                                    var photographer = (Photographer) SerializeAndDeserialize.Deserialize(cm.Messages[0].Data);
+                                    var order = (Order) SerializeAndDeserialize.Deserialize(cm.Messages[0].Data);
                                     var client = (Client) SerializeAndDeserialize.Deserialize(cm.Messages[1].Data);
+                                    var photographerCredentials = (Photographer) SerializeAndDeserialize.Deserialize(cm.Messages[2].Data);
 
                                     try
                                     {
+                                        var photographers = await DbHandler.GetPhotographersAsync();
+                                        var photographer = photographers.FirstOrDefault(ph => ph.id == order.p_id);
+                                        photographer!.rating = (short?) ((photographer.rating ?? 5 + photographerCredentials.rating) / 2);
+                                        photographer.completed_orders++;
+                                        order.isCompleted = false;
+
+                                        await DbHandler.UpdateOrder(order);
                                         await DbHandler.UpdatePhotographer(photographer);
                                         await DbHandler.UpdateClient(client);
                                     }
@@ -290,6 +302,38 @@ namespace Server
                                             },
                                             StatusCode = 200
                                         });
+                                    else
+                                        await Services.SendComplexMessageAsync(_stream, new ComplexMessage()
+                                        {
+                                            StatusCode = 404
+                                        });
+                                });
+                                break;
+                            case 212: //Restore password
+                                Task.Run(async () =>
+                                {
+                                    var tempUser = (User) SerializeAndDeserialize.Deserialize(cm.Messages[0].Data);
+                                    var users = await DbHandler.GetUsersAsync();
+                                    var findedUser = users.FirstOrDefault(u => u.email == tempUser.email);
+                                    if (findedUser != null)
+                                    {
+                                        MailAddress from = new MailAddress("///", "///");
+                                        MailAddress to = new MailAddress(tempUser.email);
+                                        MailMessage m = new MailMessage(from, to);
+                                        m.Subject = "Восстановление пароля";
+                    
+                                        m.Body = "<h1>Пароль: " + Services.GetHashString(findedUser.password) + "</h1>";
+                                        m.IsBodyHtml = true;
+                                        SmtpClient smtp = new SmtpClient("smtp.mail.ru", 587);
+                                        smtp.UseDefaultCredentials = false;
+                                        smtp.Credentials = new NetworkCredential("///", "///");
+                                        smtp.EnableSsl = true;
+                                        smtp.Send(m);
+                                        await Services.SendComplexMessageAsync(_stream, new ComplexMessage()
+                                        {
+                                            StatusCode = 200
+                                        });
+                                    }
                                     else
                                         await Services.SendComplexMessageAsync(_stream, new ComplexMessage()
                                         {
