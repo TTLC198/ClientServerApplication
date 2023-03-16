@@ -35,7 +35,7 @@ namespace Client.Forms
             {
                 this.Hide();
                 GetUser(login, password);
-                if (currentUser != null)
+                if (currentUser.email != null)
                 {
                     MessageBox.Show("Вход произошел успешно!");
                     switch (currentUser.role)
@@ -117,14 +117,17 @@ namespace Client.Forms
                     }
                 }
                 else
-                    MessageBox.Show("Пользователь с введеными данными не найден!");
-                Task.Run(async () =>
                 {
+                    MessageBox.Show("Пользователь с введеными данными не найден!");
+                    this.Show();
+                }
                     
-                    
-                });
             }
-            else MessageBox.Show("Пожалуйста, введите все данные для входа!");
+            else
+            {
+                MessageBox.Show("Пожалуйста, введите все данные для входа!");
+                this.Show();
+            }
         }
 
         private static async Task GetUser(string login, string password)

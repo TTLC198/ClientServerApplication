@@ -87,6 +87,13 @@ namespace Server
             return photos.Where(ph => ph.or_id == order.id).ToList();
         }
         
+        public static async Task<List<Order>> GetOrdersAsync()
+        {
+            using PStudioContext db = new PStudioContext();
+            var orders = await db.Orders.ToListAsync();
+            return orders;
+        }
+        
         public static async Task<Order> GetOrderAsync(int id)
         {
             using PStudioContext db = new PStudioContext();
@@ -99,6 +106,54 @@ namespace Server
             using PStudioContext db = new PStudioContext();
             var temp_order = await db.Orders.FirstAsync(o => o.id == order.id);
             temp_order.isCompleted = order.isCompleted;
+            await db.SaveChangesAsync();
+        }
+        
+        public static async Task DeletePhotographer(int id)
+        {
+            using PStudioContext db = new PStudioContext();
+            var temp_user = await db.Photographers.FirstAsync(u => u.id == id);
+            db.Photographers.Remove(temp_user);
+            await db.SaveChangesAsync();
+        }
+        
+        public static async Task DeleteClient(int id)
+        {
+            using PStudioContext db = new PStudioContext();
+            var temp_user = await db.Clients.FirstAsync(u => u.id == id);
+            db.Clients.Remove(temp_user);
+            await db.SaveChangesAsync();
+        }
+        
+        public static async Task DeleteUser(int id)
+        {
+            using PStudioContext db = new PStudioContext();
+            var temp_user = await db.Users.FirstAsync(u => u.id == id);
+            db.Users.Remove(temp_user);
+            await db.SaveChangesAsync();
+        }
+        
+        public static async Task DeleteUser(User user)
+        {
+            using PStudioContext db = new PStudioContext();
+            var temp_user = await db.Users.FirstAsync(u => u.id == user.id);
+            db.Users.Remove(temp_user);
+            await db.SaveChangesAsync();
+        }
+        
+        public static async Task DeleteOrder(int id)
+        {
+            using PStudioContext db = new PStudioContext();
+            var temp_order = await db.Orders.FirstAsync(o => o.id == id);
+            db.Orders.Remove(temp_order);
+            await db.SaveChangesAsync();
+        }
+        
+        public static async Task DeleteOrder(Order order)
+        {
+            using PStudioContext db = new PStudioContext();
+            var temp_order = await db.Orders.FirstAsync(o => o.id == order.id);
+            db.Orders.Remove(temp_order);
             await db.SaveChangesAsync();
         }
         
